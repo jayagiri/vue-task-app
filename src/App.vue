@@ -1,31 +1,27 @@
 <template>
   <div class="container">
-    <Header @toggle-add-task="toggleAddTask" title="Task Tracker" :showAddTask="showAddTask" />
-    <div  v-if= "showAddTask">
-    <AddTask @add-task="addTask" />
-    </div> 
-    <Tasks
-      @toggle-reminder="toggleReminder"
-      @delete-task="deleteTask"
-      :tasks="tasks"
+    <Header
+      @toggle-add-task="toggleAddTask"
+      title="Task Tracker"
+      :showAddTask="showAddTask"
     />
+
+    <router-view :showAddTask="showAddTask"> </router-view>
+    <Footer />
   </div>
 </template>
 
 <script>
 import Header from "./components/Header";
-import Tasks from "./components/Tasks";
-import AddTask from "./components/AddTask";
+import Footer from "./components/Footer";
 export default {
   name: "App",
   components: {
     Header,
-    Tasks,
-    AddTask,
+    Footer
   },
   data() {
     return {
-      tasks: [],
       showAddTask : false
     };
   },
@@ -35,42 +31,9 @@ toggleAddTask(){
   this.showAddTask = !this.showAddTask
 }, 
 
-    addTask(){ 
-      this.tasks = [...this.tasks, task ]
-    },
-    deleteTask(id) {
-      if (confirm("Are you sure")) {
-        this.task = this.tasks.filter((task) => task.id !== id);
-      }
-    },
-    toggleReminder(id) {
-      this.task=this.tasks.map((task) => task.id === id ? { ...task, reminder: !task.reminder} : task )
-    },
-  },
-  created() {
-    this.tasks = [
-      {
-        id: 1,
-        text: "Doctors Appointment",
-        day: "March 1st at 2pm",
-        reminder: true,
-      },
-      {
-        id: 1,
-        text: "Meeting at school",
-        day: "March 1st at 2pm",
-        reminder: false,
-      },
-      {
-        id: 1,
-        text: "Food shopping",
-        day: "March 1st at 2pm",
-        reminder: false,
-      },
-    ];
-  },
-};
-</script>
+  }
+  }
+</script>  
 
 <style>
 @import url("https://fonts.googlepis.com/css2?family=Poppins:wght@300;400&isplay=swap");
